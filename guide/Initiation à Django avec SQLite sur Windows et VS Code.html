@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Guide Numéro 1 - Initiation Django</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+      font-weight: bold;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #2c3e50;
+      border-left: 5px solid #3498db;
+      padding-left: 12px;
+      margin-top: 40px;
+    }
+
+    h3 {
+      color: #3498db;
+      margin-top: 25px;
+    }
+
+    ul {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      background: #eaf4fc;
+      border-left: 4px solid #3498db;
+      padding: 12px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.95em;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #2c3e50;
+      color: #fff;
+      margin-top: 40px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page de garde -->
+  <header>
+    <h1>Initiation à Django avec SQLite sur Windows et VS Code</h1>
+    <p>Par NZANZU ASINGYA Dieu-merci</p>
+    <p><em>Objectif :</em> Comprendre l’installation, la configuration et la création d’une mini‑application Django avec base SQLite, en environnement Windows + VS Code, avec gestion du versionning via GitHub.</p>
+  </header>
+
+  <div class="container">
+    <!-- Développement -->
+    <h2>📝 Développement</h2>
+
+    <h2>🎯 Objectif du module</h2>
+    <p>Ce module vise à :</p>
+    <ul>
+      <li>Installer Python et pip sur Windows</li>
+      <li>Configurer VS Code avec un environnement virtuel (venv)</li>
+      <li>Créer un projet Django et une application</li>
+      <li>Gérer la base de données SQLite</li>
+      <li>Utiliser l’interface d’administration</li>
+      <li>Mettre en place le versionning avec GitHub</li>
+      <li>Identifier les difficultés rencontrées et leurs solutions</li>
+    </ul>
+
+    <h2>📂 Procédure pas à pas</h2>
+
+    <h3>1. Installation de Python et pip</h3>
+    <p>Téléchargez Python depuis <a href="https://www.python.org/downloads">python.org</a>. Pendant l’installation :</p>
+    <ul>
+      <li>Cocher <strong>“Add Python to PATH”</strong> pour que Python soit reconnu dans le terminal.</li>
+      <li>Vérifier que <strong>pip</strong> est inclus (gestionnaire de paquets).</li>
+    </ul>
+    <pre>
+python --version
+pip --version
+    </pre>
+
+    <h3>2. Création d’un environnement virtuel</h3>
+    <p>Un venv permet d’isoler les dépendances de chaque projet.</p>
+    <pre>
+py -m venv venv
+venv\Scripts\activate
+    </pre>
+    <div class="highlight">👉 Dans VS Code, sélectionnez l’interpréteur <code>venv\Scripts\python.exe</code>.</div>
+
+    <h3>3. Installation de Django</h3>
+    <pre>
+pip install django
+py -m django --version
+    </pre>
+
+    <h3>4. Création du projet</h3>
+    <pre>
+django-admin startproject mysite
+cd mysite
+    </pre>
+
+    <h3>5. Création d’une application</h3>
+    <pre>
+py manage.py startapp blog
+    </pre>
+
+    <h3>6. Définition d’un modèle</h3>
+    <p>Un modèle définit la structure des données.</p>
+    <pre>
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    pub_date = models.DateField()
+    </pre>
+
+    <h3>7. Migration de la base SQLite</h3>
+    <p>Les migrations créent les tables dans la base.</p>
+    <pre>
+py manage.py makemigrations
+py manage.py migrate
+    </pre>
+    <div class="highlight">👉 Fichier <code>db.sqlite3</code> créé.</div>
+
+    <h3>8. Interface d’administration</h3>
+    <p>Créer un superuser pour accéder à l’admin :</p>
+    <pre>
+py manage.py createsuperuser
+    </pre>
+    <p>Ajouter le modèle dans <code>blog/admin.py</code> :</p>
+    <pre>
+from django.contrib import admin
+from .models import Article
+admin.site.register(Article)
+    </pre>
+    <p>Relancer le serveur :</p>
+    <pre>
+py manage.py runserver
+    </pre>
+    <p>Accéder à <code>http://127.0.0.1:8000/admin</code>.</p>
+
+    <h3>9. Ajout d’une deuxième application</h3>
+    <pre>
+py manage.py startapp shop
+    </pre>
+    <div class="highlight">👉 Nouvelle table <code>shop_product</code> dans <code>db.sqlite3</code>.</div>
+
+    <h2>📚 Exercices pratiques</h2>
+    <ul>
+      <li>Créer un modèle <code>Article</code> et l’ajouter à l’admin</li>
+      <li>Créer un modèle <code>Product</code> et l’ajouter à l’admin</li>
+      <li>Vérifier les tables dans <code>db.sqlite3</code></li>
+      <li>Tester l’ajout d’articles et de produits via <code>/admin</code></li>
+    </ul>
+
+    <h2>⚠️ Difficultés rencontrées et solutions</h2>
+    <ul>
+      <li><strong>Erreur Pylance (Import django.db)</strong> → Sélectionner le bon interpréteur (venv)</li>
+      <li><strong>Erreur “manage.py introuvable”</strong> → Se placer dans le dossier <code>mysite</code></li>
+      <li><strong>Mot de passe invisible lors du superuser</strong> → Normal, continuer la saisie</li>
+      <li><strong>Conflit Python global</strong> → Supprimer ou ignorer le global, travailler uniquement avec venv</li>
+      <li><strong>Serveur bloquant le terminal</strong> → Arrêter avec Ctrl + C ou ouvrir un deuxième terminal</li>
+    </ul>
+
+    <h2>🔗 Procédure GitHub pour le versionning</h2>
+    <p>Configurer Git :</p>
+    <pre>
+git config --global user.name "Nzanzu3744"
+git config --global user.email "asingyadieumerci@gmail.com"
+    </pre>
+
+    <p>Créer un nouveau dépôt :</p>
+    <pre>
+echo "# MonProjetDjango" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Nzanzu3744/MonProjetDjango.git
+git push -u origin main
+    </pre>
+
+   <p>Pousser un dépôt existant:</p>
+    <pre>
+git remote add origin https://github.com/Nzanzu3744/MonProjetDjango.git
+git branch -M main
+git push -u origin main
+    </pre>
+
+
+    <h2>Conclusion</h2>
+    <p>Ce guide couvre l’installation, la configuration, la gestion de la base SQLite, l’utilisation de l’admin Django et la mise en place de GitHub pour le versionning. Tu es prêt pour enrichir ton projet avec des relations, formulaires, API et déploiement.</p>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 - NZANZU ASINGYA Dieu-merci | Formation Django</p>
+  </footer>
+
+</body>
+</html>
